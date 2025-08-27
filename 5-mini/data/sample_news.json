@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "title": "Sample F1 headline: testing UI",
+      "link": "https://example.com/sample-article",
+      "summary": "This is a sample news item used when real feeds are not available.",
+      "published": "2025-08-27",
+      "source": "sample"
+    }
+  ]
+}

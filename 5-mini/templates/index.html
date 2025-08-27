@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>F1 Live — News & Standings</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">F1 Live</div>
+    <nav>
+      <button id="refresh">Refresh</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel news">
+      <h2>Latest News</h2>
+  <div id="news-list" class="list"></div>
+  <div id="news-empty" class="empty" style="display:none">No news available.</div>
+  <div id="news-error" class="empty" style="display:none;color:#ff8b8b">Unable to load news.</div>
+    </section>
+
+    <section class="panel standings">
+      <h2>Current Standings</h2>
+      <div class="standings-wrap">
+        <div>
+          <h3>Drivers</h3>
+          <ol id="drivers"></ol>
+          <div id="drivers-empty" class="empty" style="display:none">No driver standings available.</div>
+        </div>
+        <div>
+          <h3>Constructors</h3>
+          <ol id="constructors"></ol>
+          <div id="constructors-empty" class="empty" style="display:none">No constructor standings available.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">Data: Ergast API • News: multiple feeds</footer>
+
+  <script>
+    async function loadNews(){
+      const list = document.getElementById('news-list');
+      const empty = document.getElementById('news-empty');
+      const err = document.getElementById('news-error');
+      list.innerHTML = '';
+      empty.style.display = 'none';
+      err.style.display = 'none';
+      try{
+        const res = await fetch('/api/news');
+        if(!res.ok){ throw new Error('bad response'); }
+        const js = await res.json();
+        const items = js.items || [];
+        // surface meta errors for debugging
+        if(js.meta && js.meta.last_error){
+          console.warn('news meta error:', js.meta.last_error);
+        }
+        if(items.length === 0){ empty.style.display = 'block'; return; }
+        items.forEach(item => {
+          const card = document.createElement('a');
+          card.className = 'news-card';
+          card.href = item.link || '#';
+          card.target = '_blank';
+          const summaryText = (item.summary || '').replace(/(<([^>]+)>)/gi, "");
+          card.innerHTML = `\n            <div class="meta"><span class="source">${item.source || ''}</span><span class="date">${item.published || ''}</span></div>\n            <h4>${item.title || 'Untitled'}</h4>\n            <p>${summaryText.slice(0,200)}${summaryText.length>200? '...':''}</p>\n          `;
+          list.appendChild(card);
+        });
+      }catch(e){
+        console.error('news load failed', e);
+        err.style.display = 'block';
+      }
+    }
+
+    async function loadStandings(){
+      const d = document.getElementById('drivers');
+      const c = document.getElementById('constructors');
+      const emptyD = document.getElementById('drivers-empty');
+      const emptyC = document.getElementById('constructors-empty');
+      d.innerHTML = '';
+      c.innerHTML = '';
+      emptyD.style.display = 'none';
+      emptyC.style.display = 'none';
+      try{
+        const res = await fetch('/api/standings');
+        if(!res.ok){ throw new Error('bad response'); }
+        const js = await res.json();
+        // compatibility: server returns { data: { drivers, constructors }, meta }
+        const drivers = js.drivers || (js.data && js.data.drivers) || [];
+        const constructors = js.constructors || (js.data && js.data.constructors) || [];
+        if(js.meta && js.meta.last_error){
+          console.warn('standings meta error:', js.meta.last_error);
+        }
+        if(drivers.length === 0){ emptyD.style.display = 'block'; }
+        drivers.slice(0,10).forEach(x => {
+          const li = document.createElement('li');
+          const driver = x.Driver || {};
+          const constructorsArr = x.Constructors || x.constructor || [];
+          const teamName = (constructorsArr[0] && constructorsArr[0].name) || '';
+          li.innerHTML = `<strong>#${x.position}</strong> ${driver.givenName || ''} ${driver.familyName || ''} — ${x.points || 0} pts <span class="team">${teamName}</span>`;
+          d.appendChild(li);
+        });
+        if(constructors.length === 0){ emptyC.style.display = 'block'; }
+        constructors.slice(0,10).forEach(x => {
+          const li = document.createElement('li');
+          const name = (x.Constructor && x.Constructor.name) || x.name || '';
+          li.innerHTML = `<strong>#${x.position}</strong> ${name} — ${x.points || 0} pts`;
+          c.appendChild(li);
+        });
+      }catch(e){
+        console.error('standings load failed', e);
+        if(!document.getElementById('drivers-empty')){ /* noop */ }
+        emptyD.style.display = 'block';
+        emptyC.style.display = 'block';
+      }
+    }
+
+    document.getElementById('refresh').addEventListener('click', ()=>{ loadAll(); });
+
+    async function loadAll(){
+      await Promise.all([loadNews(), loadStandings()]);
+    }
+
+    loadAll();
+    setInterval(loadAll, 120000);
+  </script>
+</body>
+</html>
