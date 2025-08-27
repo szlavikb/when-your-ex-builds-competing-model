@@ -31,7 +31,7 @@ when-your-ex-builds-competing-model/
 
 - [5-mini Technical README](./5-mini/README.md)
 - [grok-code-fast Technical README](./grok-code-fast/README.md)
-- [🌐 HTML Demo (see below for setup)](./index.html)
+- [🌐 HTML Demo (see below for setup)]([./index.html](https://szlavikb.github.io/when-your-ex-builds-competing-model/))
 
 ---
 
@@ -40,28 +40,6 @@ when-your-ex-builds-competing-model/
 Both apps are built with Python and Flask, but each takes a different approach to architecture, UI, and feature set. Explore each subproject for detailed technical documentation, setup instructions, and code.
 
 ---
-
-## 🌐 GitHub Pages: View the HTML Demo Online
-
-You can view the included `index.html` as a live webpage using GitHub Pages:
-
-**To enable GitHub Pages:**
-1. Go to your repository on GitHub.
-2. Click on **Settings**.
-3. In the sidebar, click **Pages**.
-4. Under **Source**, select the branch: `add-html-demo-and-pages-instructions` (or `main` if merged).
-5. Select the `/ (root)` folder.
-6. Click **Save**.
-
-After a few moments, GitHub Pages will provide a link (e.g., `https://szlavikb.github.io/when-your-ex-builds-competing-model/`).  
-Visit this link to see your [HTML demo](./index.html) rendered live!
-
-> **Tip:** Any static HTML, CSS, or JS files in your repo root or `/docs` will be served by Pages.
-
----
-
-## 📄 License
-MIT
 
 ## 🎯 Task Given to Both Models
 
