@@ -7,7 +7,42 @@
 	<img src="https://img.shields.io/badge/Comparison-UI-blueviolet?style=for-the-badge" alt="UI Comparison"/>
 </div>
 
+# 🏆 F1 News & Standings — Project Overview
+
+Welcome to the ultimate Formula 1 dashboard repository! This project contains two unique, stylish, and technically robust F1 news and standings web apps:
+
+- [5-mini](./5-mini/README.md) — Minimalist, OOP Flask app for live news and standings
+- [grok-code-fast](./grok-code-fast/README.md) — Modern, visually rich dashboard with advanced features
+
 ---
+
+## 📂 Project Structure
+
+```
+when-your-ex-builds-competing-model/
+├── 5-mini/           # Minimalist F1 Flask app
+├── grok-code-fast/   # Modern, feature-rich F1 dashboard
+├── comparison.md     # Project comparison notes
+└── .gitignore        # Git exclusions
+```
+
+---
+
+## 🚦 Quick Links
+
+- [5-mini Technical README](./5-mini/README.md)
+- [grok-code-fast Technical README](./grok-code-fast/README.md)
+
+---
+
+## ✨ About
+
+Both apps are built with Python and Flask, but each takes a different approach to architecture, UI, and feature set. Explore each subproject for detailed technical documentation, setup instructions, and code structure.
+
+---
+
+## 📄 License
+MIT
 
 ## 🎯 Task Given to Both Models
 
