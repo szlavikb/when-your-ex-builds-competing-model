@@ -31,7 +31,7 @@ when-your-ex-builds-competing-model/
 
 - [5-mini Technical README](./5-mini/README.md)
 - [grok-code-fast Technical README](./grok-code-fast/README.md)
-- [🌐 HTML Demo (see below for setup)]([./index.html](https://szlavikb.github.io/when-your-ex-builds-competing-model/))
+- [🌐 HTML Demo (see below for setup)](https://szlavikb.github.io/when-your-ex-builds-competing-model/)
 
 ---
 
